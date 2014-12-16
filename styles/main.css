@@ -1,0 +1,56 @@
+body {
+    color: #444;
+    text-align: center;
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", sans-serif;
+    padding-left:20px;
+}
+
+.wrap {
+    width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.head {
+    width: 100%;
+    height: 111px;
+    background:url(../images/icon-128.png) no-repeat;
+    padding: 17px 0 0 142px;
+    color: #3D4044;
+    font-size: 54px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.form {
+    width: 400px;
+}
+
+.form input {
+    width: 200px;
+    padding: 4px;
+    font-size: 14px;
+}
+
+.Button {
+    background-color:#77b55a;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    border:1px solid #4b8f29;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:arial;
+    font-size:17px;
+    margin-top: 20px;
+    padding:8px 25px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #5b8a3c;
+}
+.Button:hover {
+    background-color:#72b352;
+}
+.Button:active {
+    position:relative;
+    top:1px;
+}
