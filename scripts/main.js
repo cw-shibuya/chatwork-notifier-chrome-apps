@@ -21,8 +21,8 @@ chrome.app.runtime.onLaunched.addListener(function() {
              return;
           }
 
-          setToken(result.token);
-          setRoomIdWhiteList(result.room_id_white_list || "");
+          CWNotification.setToken(result.token);
+          CWNotification.setRoomIdWhiteList(result.room_id_white_list || "");
 
           // 開始
           run();
@@ -34,7 +34,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
 
               if (key === "token") {
                   var token = changes[key].newValue;
-                  setToken(token);
+                  CWNotification.setToken(token);
 
                   if (token === "" && timer) {
                       clearInterval(timer);
@@ -47,7 +47,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
               }
 
               if (key === "room_id_white_list") {
-                  setRoomIdWhiteList(changes[key].newValue || "");
+                  CWNotification.setRoomIdWhiteList(changes[key].newValue || "");
               }
           }
       });
@@ -56,14 +56,14 @@ chrome.app.runtime.onLaunched.addListener(function() {
       // TODO メッセージチェックの間隔は設定で変更できるようにする
       // TODO 認証失敗（401）が返ってきていたら、タイマー止める
       var run = function() {
-          updateLatestUpdateTime();
+          CWNotification.updateLatestUpdateTime();
 
           timer = setInterval(function() {
               // TODO
               // 最終定期実行時間から5分以上経っていたら
               // 一旦現状の未読状況を通知して、そこからの通知を関しするようにする
 
-              notifyNewMessages();
+              CWNotification.notifyNewMessages();
 
           }, 10000);
       };

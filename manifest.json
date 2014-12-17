@@ -18,7 +18,7 @@
         "background": {
             "scripts": [
                 "bower_components/jquery/dist/jquery.min.js",
-                "scripts/notify.js",
+                "scripts/CWNotification.js",
                 "scripts/main.js",
                 "scripts/chromereload.js"
             ]
