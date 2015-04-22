@@ -56,7 +56,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
       // TODO メッセージチェックの間隔は設定で変更できるようにする
       // TODO 認証失敗（401）が返ってきていたら、タイマー止める
       var run = function() {
-          CWNotification.updateLatestUpdateTime();
+          CWNotification.init();
 
           timer = setInterval(function() {
               // TODO

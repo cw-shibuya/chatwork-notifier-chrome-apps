@@ -7,7 +7,7 @@ var CWNotification = (function(self) {
 
     /**
      * 今までチェックした中で一番最新の更新日時
-     * @type {timestamp}
+     * @type {Number}
      */
     var latest_update_time = 0;
 
@@ -15,13 +15,19 @@ var CWNotification = (function(self) {
      * APIトークン
      * @type {string}
      */
-    var api_token;
+    var api_token = "";
 
     /**
      * 通知する対象のチャット一覧（指定がない場合は全部が対象）
      * @type {Array}
      */
     var room_id_white_list;
+
+    /**
+     * 利用者のid
+     * @type {Number}
+     */
+    var myid = 0;
 
     /**
      * チャットワークAPIのエンドポイントの起点URL
@@ -77,7 +83,7 @@ var CWNotification = (function(self) {
                     return message_obj;
                 }
             }).filter(function(item){
-                return item != undefined
+                return item != undefined;
             }));
         });
     };
@@ -91,6 +97,21 @@ var CWNotification = (function(self) {
         return Math.max.apply(null, room_objs.map(function(obj) {
             return obj.last_update_time;
         }));
+    };
+
+
+    /**
+     * 現在一番更新時間が新しいチャットの更新時間の最新化
+     */
+    var updateLatestUpdateTime = function() {
+        getRooms(function(data) {
+            latest_update_time = getLatestUpdateTime(data);
+        });
+    };
+
+    var isMemtionToMe = function(message) {
+        var regexp = new RegExp('\\[To:' + myid + '\\]');
+        return regexp.test(message);
     };
 
 
@@ -110,6 +131,10 @@ var CWNotification = (function(self) {
         };
 
         for (var i = 0, len = message_objects.length; i < len; i++) {
+            if (!isMemtionToMe(message_objects[i].body)) {
+                continue;
+            }
+
             options.items.push({
                 title:   'from ' + message_objects[i].account.name,
                 message: message_objects[i].body
@@ -118,6 +143,10 @@ var CWNotification = (function(self) {
 
         var creationCallback = function() {
         };
+
+        if (options.items.length == 0) {
+            return;
+        }
 
         chrome.notifications.create("", options, creationCallback);
     };
@@ -183,6 +212,15 @@ var CWNotification = (function(self) {
     };
 
     return {
+        init: function() {
+            updateLatestUpdateTime();
+
+            // myidへidをセット
+            requestApi('/me', function(me) {
+                myid = me.account_id;
+            });
+        },
+
         /**
          * APIトークンのセット
          * @param {String} token
@@ -204,9 +242,7 @@ var CWNotification = (function(self) {
          * ※ 更新処理は非同期なので注意
          */
         updateLatestUpdateTime: function() {
-            getRooms(function(data) {
-                latest_update_time = getLatestUpdateTime(data)
-            });
+            updateLatestUpdateTime();
         },
 
         /**
