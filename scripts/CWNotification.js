@@ -24,6 +24,12 @@ var CWNotification = (function(self) {
     var room_id_white_list;
 
     /**
+     * 自分宛てのToのみ通知するか
+     * @type {Boolean}
+     */
+    var notify_only_mention = false;
+
+    /**
      * 利用者のid
      * @type {Number}
      */
@@ -109,9 +115,19 @@ var CWNotification = (function(self) {
         });
     };
 
-    var isMemtionToMe = function(message) {
+    /**
+     * 自分へのMentionがあるメッセージか
+     * @param {Object} message_object
+     * @return bool
+     */
+    var isMemtionToMe = function(message_object) {
+        // 自分の発言は無視
+        if (message_object.account.account_id == myid) {
+            return false;
+        }
+
         var regexp = new RegExp('\\[To:' + myid + '\\]');
-        return regexp.test(message);
+        return regexp.test(message_object.body);
     };
 
 
@@ -131,7 +147,8 @@ var CWNotification = (function(self) {
         };
 
         for (var i = 0, len = message_objects.length; i < len; i++) {
-            if (!isMemtionToMe(message_objects[i].body)) {
+            // 自分宛てのToのみ通知する設定がされている場合で、かつ 自分へのToでない場合はスキップ
+            if (notify_only_mention && !isMemtionToMe(message_objects[i])) {
                 continue;
             }
 
@@ -235,6 +252,14 @@ var CWNotification = (function(self) {
          */
         setRoomIdWhiteList: function(white_list) {
             room_id_white_list = white_list;
+        },
+
+
+        /**
+         * 自分宛てのToがあった時のみ通知するようにする
+         */
+        notifyOnlyMention: function() {
+            notify_only_mention = true;
         },
 
         /**

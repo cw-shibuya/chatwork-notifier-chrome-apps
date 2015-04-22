@@ -31,6 +31,10 @@ body {
     font-size: 14px;
 }
 
+.form_bottom {
+    margin-top: 20px;
+}
+
 .Button {
     background-color:#77b55a;
     -moz-border-radius:5px;

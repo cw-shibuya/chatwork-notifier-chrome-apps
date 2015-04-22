@@ -1,6 +1,6 @@
 var Option = (function(self){
     var option = {};
-    var id_list = ['token', 'room_id_white_list'];
+    var id_list = ['token', 'room_id_white_list', 'only_mention'];
     var glue = ",";
 
     // 設定値の保存
@@ -12,13 +12,17 @@ var Option = (function(self){
         for (var i = 0, len = id_list.length; i < len; i++) {
             id = id_list[i];
 
-            new_value = document.getElementById(id).value;
+            if (id === "only_mention") {
+                new_value = $("#"+id).prop("checked") * 1;
+            } else {
+                new_value = $("#"+id).val();
 
-            // カンマ区切りの文字列を配列にする
-            if (id === "room_id_white_list" && new_value !== "") {
-                new_value = new_value.split(glue).map(function(val) {
-                    return val * 1;
-                });
+                // カンマ区切りの文字列を配列にする
+                if (id === "room_id_white_list" && new_value !== "") {
+                    new_value = new_value.split(glue).map(function(val) {
+                        return val * 1;
+                    });
+                }
             }
 
             save_data[id] = new_value;
@@ -34,6 +38,11 @@ var Option = (function(self){
             var val;
             for (var id in result) {
                 val = result[id] || "";
+
+                if (id === 'only_mention') {
+                    $("#"+id).prop('checked', Boolean(val));
+                    continue;
+                }
 
                 if (id === "room_id_white_list" && val !== "") {
                     // 配列で保存されているデータを、文字列に変換する

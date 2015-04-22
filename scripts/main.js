@@ -3,7 +3,7 @@
 // Listens for the app launching then creates the window
 chrome.app.runtime.onLaunched.addListener(function() {
       var width  = 732;
-      var height = 428
+      var height = 460;
       var timer  = null;
       chrome.app.window.create('index.html', {
           id: 'main',
@@ -16,13 +16,17 @@ chrome.app.runtime.onLaunched.addListener(function() {
       });
 
       // メイン処理
-      chrome.storage.local.get(["token", "room_id_white_list"], function(result) {
+      chrome.storage.local.get(["token", "room_id_white_list", "only_mention"], function(result) {
           if (!result.token) {
              return;
           }
 
           CWNotification.setToken(result.token);
           CWNotification.setRoomIdWhiteList(result.room_id_white_list || "");
+
+          if (result.only_mention) {
+              CWNotification.notifyOnlyMention();
+          }
 
           // 開始
           run();

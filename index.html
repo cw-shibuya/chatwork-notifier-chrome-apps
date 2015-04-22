@@ -22,8 +22,8 @@
           </header>
           <section>
             <h1>通知設定</h1>
-            <div class="form">
-              <table>
+            <div>
+              <table class="form">
                 <tr>
                   <td>ChatWork トークン</td>
                   <td><input type="text" name="token" id="token"/></td>
@@ -33,6 +33,12 @@
                   <td><input type="text" placeholder="1,2,323 （カンマ区切りで入力）" name="room_id_white_list" id="room_id_white_list"/></td>
                 </tr>
               </table>
+              <div class="form_bottom">
+                <input type="checkbox" name="only_mention" id="only_mention" value="1">
+                <label for="only_mention">
+                  自分宛てのToのみ通知する
+                </label>
+              </div>
               <button class="Button" id="save">保存する</button>
             </div>
           </section>
