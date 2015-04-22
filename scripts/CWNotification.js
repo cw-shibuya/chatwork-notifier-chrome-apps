@@ -258,8 +258,8 @@ var CWNotification = (function(self) {
         /**
          * 自分宛てのToがあった時のみ通知するようにする
          */
-        notifyOnlyMention: function() {
-            notify_only_mention = true;
+        setNotifyOnlyMention: function(enable) {
+            notify_only_mention = enable;
         },
 
         /**

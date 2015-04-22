@@ -23,10 +23,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
 
           CWNotification.setToken(result.token);
           CWNotification.setRoomIdWhiteList(result.room_id_white_list || "");
-
-          if (result.only_mention) {
-              CWNotification.notifyOnlyMention();
-          }
+          CWNotification.setNotifyOnlyMention(result.only_mention || false);
 
           // 開始
           run();
@@ -52,6 +49,10 @@ chrome.app.runtime.onLaunched.addListener(function() {
 
               if (key === "room_id_white_list") {
                   CWNotification.setRoomIdWhiteList(changes[key].newValue || "");
+              }
+
+              if (key === "only_mention") {
+                  CWNotification.setNotifyOnlyMention(changes[key].newValue);
               }
           }
       });
