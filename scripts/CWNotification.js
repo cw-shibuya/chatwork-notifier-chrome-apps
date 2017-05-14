@@ -39,7 +39,7 @@ var CWNotification = (function(self) {
      * チャットワークAPIのエンドポイントの起点URL
      * @type {String}
      */
-    var url_base = 'https://api.chatwork.com/v1';
+    var url_base = 'https://api.chatwork.com/v2';
 
     var requestApi = function(endpoint, success_callback) {
         var request_url = url_base + endpoint;
